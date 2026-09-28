@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace HuzaifaArain\LaravelPulseMcp\Mcp\Servers;
 
+use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\ExceptionsTool;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\HealthTool;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\OverviewTool;
+use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\SlowJobsTool;
+use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\SlowOutgoingRequestsTool;
+use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\SlowQueriesTool;
+use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\SlowRequestsTool;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\TypesTool;
 use Laravel\Mcp\Server;
 use Laravel\Mcp\Server\Attributes\Instructions;
@@ -29,6 +34,11 @@ class PulseServer extends Server
     protected array $tools = [
         HealthTool::class,
         OverviewTool::class,
+        ExceptionsTool::class,
+        SlowQueriesTool::class,
+        SlowRequestsTool::class,
+        SlowJobsTool::class,
+        SlowOutgoingRequestsTool::class,
         TypesTool::class,
     ];
 }
