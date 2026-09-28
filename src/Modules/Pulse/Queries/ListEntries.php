@@ -36,11 +36,11 @@ final readonly class ListEntries
                 mb_strtolower($search),
             );
 
-        $result = $this->pulseRepository->aggregate($type->value, ['max', 'count'], $period, $type->orderBy($sort), $limit, $filter);
+        $aggregateResult = $this->pulseRepository->aggregate($type->value, ['max', 'count'], $period, $type->orderBy($sort), $limit, $filter);
 
         return [
-            'rows' => array_map(fn (\stdClass $row): array => $this->format($type, $row), $result->rows),
-            'truncated' => $result->truncated,
+            'rows' => array_map(fn (\stdClass $row): array => $this->format($type, $row), $aggregateResult->rows),
+            'truncated' => $aggregateResult->truncated,
         ];
     }
 
