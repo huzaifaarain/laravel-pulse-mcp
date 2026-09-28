@@ -32,9 +32,9 @@ final readonly class ListUsage
      */
     public function execute(string $type, Period $period, int $limit): array
     {
-        $result = $this->pulseRepository->aggregate(self::TYPES[$type] ?? self::TYPES['requests'], ['count'], $period, 'count', $limit);
+        $aggregateResult = $this->pulseRepository->aggregate(self::TYPES[$type] ?? self::TYPES['requests'], ['count'], $period, 'count', $limit);
 
-        $resolvesUsers = $this->pulse->resolveUsers(new Collection(array_map(static fn (\stdClass $row): string => (string) $row->key, $result->rows)));
+        $resolvesUsers = $this->pulse->resolveUsers(new Collection(array_map(static fn (\stdClass $row): string => (string) $row->key, $aggregateResult->rows)));
 
         return [
             'rows' => array_map(function (\stdClass $row) use ($resolvesUsers): array {
@@ -46,8 +46,8 @@ final readonly class ListUsage
                     'email' => $this->redactor->includesUserEmail() && ($user->extra ?? '') !== '' ? $user->extra : null,
                     'count' => (int) $row->count,
                 ], static fn (mixed $value): bool => $value !== null);
-            }, $result->rows),
-            'truncated' => $result->truncated,
+            }, $aggregateResult->rows),
+            'truncated' => $aggregateResult->truncated,
         ];
     }
 }

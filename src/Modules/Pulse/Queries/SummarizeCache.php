@@ -29,7 +29,7 @@ final readonly class SummarizeCache
             ? null
             : static fn (\stdClass $row): bool => str_contains(mb_strtolower((string) $row->key), mb_strtolower($search));
 
-        $result = $this->pulseRepository->aggregateTypes(
+        $aggregateResult = $this->pulseRepository->aggregateTypes(
             ['cache_hit', 'cache_miss'],
             'count',
             $period,
@@ -47,8 +47,8 @@ final readonly class SummarizeCache
                 'hits' => (int) ($row->cache_hit ?? 0),
                 'misses' => (int) ($row->cache_miss ?? 0),
                 'hit_rate' => $this->rate((float) ($row->cache_hit ?? 0), (float) ($row->cache_miss ?? 0)),
-            ], $result->rows),
-            'truncated' => $result->truncated,
+            ], $aggregateResult->rows),
+            'truncated' => $aggregateResult->truncated,
         ];
     }
 
