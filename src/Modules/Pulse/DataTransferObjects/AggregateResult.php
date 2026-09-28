@@ -7,7 +7,7 @@ namespace HuzaifaArain\LaravelPulseMcp\Modules\Pulse\DataTransferObjects;
 final readonly class AggregateResult
 {
     /**
-     * @param  list<object>  $rows
+     * @param  list<\stdClass>  $rows
      */
     public function __construct(
         public array $rows,

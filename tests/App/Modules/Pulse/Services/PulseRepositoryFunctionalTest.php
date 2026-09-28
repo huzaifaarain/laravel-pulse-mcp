@@ -71,7 +71,7 @@ final class PulseRepositoryFunctionalTest extends TestCase
             Period::OneHour,
             null,
             1,
-            static fn (object $row): bool => str_contains((string) $row->key, 'Invoice'),
+            static fn (\stdClass $row): bool => str_contains((string) $row->key, 'Invoice'),
         );
 
         // Assert

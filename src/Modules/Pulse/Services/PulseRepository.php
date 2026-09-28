@@ -34,13 +34,13 @@ final readonly class PulseRepository
 
     /**
      * @param  list<'count'|'min'|'max'|'sum'|'avg'>  $aggregates
-     * @param  (Closure(object): bool)|null  $filter
+     * @param  (Closure(\stdClass): bool)|null  $filter
      */
     public function aggregate(string $type, array $aggregates, Period $period, ?string $orderBy, int $limit, ?Closure $filter = null): AggregateResult
     {
         $fetch = $filter instanceof Closure ? $this->scanLimit() : $limit + 1;
 
-        /** @var list<object> $rows */
+        /** @var list<\stdClass> $rows */
         $rows = $this->remember(
             ['aggregate', $type, $aggregates, $period->value, $orderBy, $fetch],
             fn (): array => $this->storage->aggregate($type, $aggregates, $period->interval(), $orderBy, 'desc', $fetch)->values()->all(),
@@ -52,13 +52,13 @@ final readonly class PulseRepository
     /**
      * @param  list<string>  $types
      * @param  'count'|'min'|'max'|'sum'|'avg'  $aggregate
-     * @param  (Closure(object): bool)|null  $filter
+     * @param  (Closure(\stdClass): bool)|null  $filter
      */
     public function aggregateTypes(array $types, string $aggregate, Period $period, ?string $orderBy, int $limit, ?Closure $filter = null): AggregateResult
     {
         $fetch = $filter instanceof Closure ? $this->scanLimit() : $limit + 1;
 
-        /** @var list<object> $rows */
+        /** @var list<\stdClass> $rows */
         $rows = $this->remember(
             ['aggregateTypes', $types, $aggregate, $period->value, $orderBy, $fetch],
             fn (): array => $this->storage->aggregateTypes($types, $aggregate, $period->interval(), $orderBy, 'desc', $fetch)->values()->all(),
@@ -114,8 +114,8 @@ final readonly class PulseRepository
     }
 
     /**
-     * @param  list<object>  $rows
-     * @param  (Closure(object): bool)|null  $filter
+     * @param  list<\stdClass>  $rows
+     * @param  (Closure(\stdClass): bool)|null  $filter
      */
     private function slice(array $rows, int $limit, ?Closure $filter): AggregateResult
     {
