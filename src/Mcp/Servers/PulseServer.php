@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HuzaifaArain\LaravelPulseMcp\Mcp\Servers;
 
+use HuzaifaArain\LaravelPulseMcp\Mcp\Prompts\DiagnosePerformancePrompt;
+use HuzaifaArain\LaravelPulseMcp\Mcp\Prompts\TriageErrorsPrompt;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\AggregateTool;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\CacheTool;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\ExceptionsTool;
@@ -50,5 +52,10 @@ class PulseServer extends Server
         UsageTool::class,
         TypesTool::class,
         AggregateTool::class,
+    ];
+
+    protected array $prompts = [
+        DiagnosePerformancePrompt::class,
+        TriageErrorsPrompt::class,
     ];
 }
