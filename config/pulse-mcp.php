@@ -51,6 +51,12 @@ return [
     // Additional middleware for the MCP route.
     'middleware' => [],
 
+    // Laravel rate limit for the MCP route ("max,minutes"). Empty disables it.
+    'throttle' => env('PULSE_MCP_THROTTLE', '60,1'),
+
+    // Keep agent traffic to the MCP endpoint out of Pulse's request and usage cards.
+    'ignore_own_requests' => true,
+
     /*
     |--------------------------------------------------------------------------
     | Query Limits & Caching

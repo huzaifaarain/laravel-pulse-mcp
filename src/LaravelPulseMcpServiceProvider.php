@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace HuzaifaArain\LaravelPulseMcp;
 
+use HuzaifaArain\LaravelPulseMcp\Console\Commands\ClientCommand;
 use HuzaifaArain\LaravelPulseMcp\Http\Middleware\EnsureCanViewPulseMcp;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Servers\PulseServer;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -12,6 +13,8 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Mcp\Facades\Mcp;
 use Laravel\Passport\Contracts\AuthorizationViewResponse;
 use Laravel\Passport\Passport;
+use Laravel\Pulse\Recorders\SlowRequests;
+use Laravel\Pulse\Recorders\UserRequests;
 
 class LaravelPulseMcpServiceProvider extends ServiceProvider
 {
@@ -45,6 +48,10 @@ class LaravelPulseMcpServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/pulse-mcp'),
             ], 'pulse-mcp-views');
+
+            $this->commands([
+                ClientCommand::class,
+            ]);
         }
     }
 
@@ -76,12 +83,34 @@ class LaravelPulseMcpServiceProvider extends ServiceProvider
             $this->registerAuthorizationView();
         }
 
-        Mcp::web((string) $repository->get('pulse-mcp.path'), PulseServer::class)
-            ->middleware([
+        $path = trim((string) $repository->get('pulse-mcp.path'), '/');
+        $throttle = (string) $repository->get('pulse-mcp.throttle');
+
+        Mcp::web($path, PulseServer::class)
+            ->middleware(array_values(array_filter([
                 ...(array) $repository->get('pulse-mcp.middleware', []),
+                $throttle !== '' ? 'throttle:'.$throttle : null,
                 'auth:'.$guard,
                 EnsureCanViewPulseMcp::class,
-            ]);
+            ])));
+
+        if ($repository->get('pulse-mcp.ignore_own_requests', true)) {
+            $this->ignoreOwnRequests($repository, $path);
+        }
+    }
+
+    /**
+     * Pulse matches recorder `ignore` patterns against the route path, so agent calls never show up as app traffic.
+     */
+    private function ignoreOwnRequests(Repository $repository, string $path): void
+    {
+        $pattern = '#/'.preg_quote($path, '#').'$#';
+
+        foreach ([SlowRequests::class, UserRequests::class] as $recorder) {
+            $key = "pulse.recorders.{$recorder}.ignore";
+
+            $repository->set($key, [...(array) $repository->get($key, []), $pattern]);
+        }
     }
 
     /**
