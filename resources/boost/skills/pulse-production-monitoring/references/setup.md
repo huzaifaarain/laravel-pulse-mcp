@@ -16,7 +16,7 @@ The package runs inside the production application. The developer's agent connec
 
 2. Choose authentication with `PULSE_MCP_AUTH`:
    - `passport` (default): OAuth with dynamic client registration. Requires `laravel/passport` ^13 installed and configured (`php artisan passport:install`), an `api` guard using the `passport` driver, and `Laravel\Passport\HasApiTokens` on the user model.
-   - `sanctum`: bearer personal access tokens. Requires `laravel/sanctum` and `Laravel\Sanctum\HasApiTokens`. Issue tokens with the `mcp:use` ability, for example `$user->createToken('pulse-mcp', ['mcp:use'])`.
+   - `sanctum`: bearer personal access tokens. Requires `laravel/sanctum` and `Laravel\Sanctum\HasApiTokens`. Issue tokens with the `mcp:use` ability via `php artisan pulse-mcp:token {id-or-email} [--expires=30] [--model=...]`.
 
 3. Authorize users. Access defaults to Pulse's `viewPulse` gate. Define `viewPulseMcp` to narrow it:
 

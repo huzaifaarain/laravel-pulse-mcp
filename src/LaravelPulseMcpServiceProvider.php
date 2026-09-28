@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace HuzaifaArain\LaravelPulseMcp;
 
 use HuzaifaArain\LaravelPulseMcp\Console\Commands\ClientCommand;
+use HuzaifaArain\LaravelPulseMcp\Console\Commands\TokenCommand;
 use HuzaifaArain\LaravelPulseMcp\Http\Middleware\EnsureCanViewPulseMcp;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Servers\PulseServer;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -51,6 +52,7 @@ class LaravelPulseMcpServiceProvider extends ServiceProvider
 
             $this->commands([
                 ClientCommand::class,
+                TokenCommand::class,
             ]);
         }
     }

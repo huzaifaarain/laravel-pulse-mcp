@@ -81,9 +81,13 @@ PULSE_MCP_AUTH=sanctum
 
 Add `Laravel\Sanctum\HasApiTokens` to your `User` model, then issue a token with the `mcp:use` ability:
 
-```php
-$token = $user->createToken('pulse-mcp', ['mcp:use'])->plainTextToken;
+```bash
+php artisan pulse-mcp:token ops@example.com            # by email or id
+php artisan pulse-mcp:token 1 --expires=30 --name=laptop
+php artisan pulse-mcp:token 1 --model="App\Models\Admin"  # defaults to the default guard's user model
 ```
+
+The command prints the token and a ready-to-run `claude mcp add` command, and it warns if the user fails the `viewPulseMcp` gate. In code, the equivalent is `$user->createToken('pulse-mcp', ['mcp:use'])`.
 
 ### Authorizing users
 
