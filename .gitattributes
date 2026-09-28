@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+/.ai export-ignore
+/.github export-ignore
+/docs export-ignore
+/research export-ignore
+/tests export-ignore
+/tools export-ignore
+/workbench export-ignore
+/.editorconfig export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.release-please-manifest.json export-ignore
+/release-please-config.json export-ignore
+/testbench.yaml export-ignore
