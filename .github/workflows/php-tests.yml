@@ -7,6 +7,11 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
+# dorny/paths-filter lists pull request files through the API.
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   changes:
     runs-on: ubuntu-latest
