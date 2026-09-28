@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/huzaifaarain/laravel-pulse-mcp/compare/v0.1.0...v0.2.0) (2026-09-28)
+
+
+### Features
+
+* add pulse-mcp:token command for Sanctum tokens ([7cbe153](https://github.com/huzaifaarain/laravel-pulse-mcp/commit/7cbe153f5952d7f212ca60b796d104d69d7eec10)), closes [#17](https://github.com/huzaifaarain/laravel-pulse-mcp/issues/17)
+
+
+### Build System
+
+* **deps:** bump the github-actions group across 1 directory with 2 updates ([#14](https://github.com/huzaifaarain/laravel-pulse-mcp/issues/14)) ([962c71e](https://github.com/huzaifaarain/laravel-pulse-mcp/commit/962c71ec6b29c4e5fe7ffef1de6ea1e06d4023bb))
+
 ## 0.1.0 (2026-09-28)
 
 
