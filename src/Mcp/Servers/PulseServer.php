@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace HuzaifaArain\LaravelPulseMcp\Mcp\Servers;
 
+use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\AggregateTool;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\CacheTool;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\ExceptionsTool;
 use HuzaifaArain\LaravelPulseMcp\Mcp\Tools\HealthTool;
@@ -48,5 +49,6 @@ class PulseServer extends Server
         ServersTool::class,
         UsageTool::class,
         TypesTool::class,
+        AggregateTool::class,
     ];
 }
