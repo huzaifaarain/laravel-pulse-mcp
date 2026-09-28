@@ -20,6 +20,39 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Authentication & Authorization
+    |--------------------------------------------------------------------------
+    |
+    | "passport" enables OAuth with dynamic client registration, so MCP clients
+    | such as Claude Code can sign in through the browser. "sanctum" accepts
+    | personal access tokens instead. Tokens need the `mcp:use` scope/ability
+    | (Sanctum's default `*` ability satisfies it), and the user must pass
+    | the gate below, which defaults to Pulse's own `viewPulse` gate.
+    |
+    */
+
+    'auth' => [
+        'driver' => env('PULSE_MCP_AUTH', 'passport'),
+
+        // Defaults to "api" for Passport and "sanctum" for Sanctum.
+        'guard' => env('PULSE_MCP_GUARD'),
+    ],
+
+    'oauth' => [
+        // Register the OAuth discovery and client registration routes.
+        'routes' => env('PULSE_MCP_OAUTH_ROUTES', true),
+
+        // Consent screen used when the application has not set its own Passport authorization view.
+        'authorization_view' => 'pulse-mcp::authorize',
+    ],
+
+    'gate' => 'viewPulseMcp',
+
+    // Additional middleware for the MCP route.
+    'middleware' => [],
+
+    /*
+    |--------------------------------------------------------------------------
     | Query Limits & Caching
     |--------------------------------------------------------------------------
     |
