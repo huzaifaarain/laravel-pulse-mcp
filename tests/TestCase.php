@@ -9,6 +9,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Mcp\Server\McpServiceProvider;
 use Laravel\Pulse\PulseServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Workbench\App\Models\User;
+
+use function Orchestra\Testbench\default_migration_path;
 
 abstract class TestCase extends Orchestra
 {
@@ -28,11 +31,12 @@ abstract class TestCase extends Orchestra
         $app['config']->set('database.default', 'testing');
         $app['config']->set('pulse.ingest.driver', 'storage');
         $app['config']->set('pulse-mcp.cache_ttl', 0);
+        $app['config']->set('auth.providers.users.model', User::class);
     }
 
     protected function defineDatabaseMigrations(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../vendor/laravel/pulse/database/migrations');
-        $this->loadLaravelMigrations();
+        $this->loadMigrationsFrom(default_migration_path());
     }
 }
